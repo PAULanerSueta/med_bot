@@ -1,0 +1,1 @@
+worker: python med_bot.py

@@ -1,0 +1,4 @@
+docx==0.2.4
+docxtpl==0.15.2
+openpyxl==3.0.9
+pyTelegramBotAPI==4.4.0
