@@ -187,12 +187,12 @@ def welcome(message):
     markup_main.add(button2)
 
     markup2 = types.InlineKeyboardMarkup(row_width=2)
-    item3 = types.InlineKeyboardButton("Пройти тест", callback_data='test')
-    item4 = types.InlineKeyboardButton("Заполнить таблицу", callback_data='sheet')
+    item3 = types.InlineKeyboardButton("Учет нежелательных событий", callback_data='test')
+    item4 = types.InlineKeyboardButton("Комплексная проверка подразделений", callback_data='sheet')
     markup2.add(item3, item4)
 
     bot.send_message(message.chat.id, 'Привет', reply_markup=markup_main)
-    bot.send_message(message.chat.id, 'Выберите, что Вы хотите пройти:', reply_markup=markup2)
+    bot.send_message(message.chat.id, 'Выберите, что вы хотите пройти:', reply_markup=markup2)
 
 
 @bot.message_handler(content_types=['text'])
@@ -470,7 +470,6 @@ def comment(message):
     a = message.chat.id
     b = message.text
     list_for_comment[a].append(b)
-    print(list_for_comment)
     bot.send_message(message.chat.id, 'Я запомнил Ваш комментарий')
 
 
@@ -484,19 +483,19 @@ def callback_inline(call):
     try:
         if call.message:
             if call.data == 'test':
-                bot.send_message(call.message.chat.id, 'Вы выбрали тест')
+                bot.send_message(call.message.chat.id, 'Вы выбрали учет нежелательных событий')
                 markup_for_test = types.InlineKeyboardMarkup(row_width=2)
                 item1_for_test = types.InlineKeyboardButton("амбулаторные условия", callback_data='ambulat_for_test')
                 item2_for_test = types.InlineKeyboardButton("стационарные условия", callback_data='station_for_test')
                 markup_for_test.add(item1_for_test, item2_for_test)
-                bot.send_message(call.message.chat.id, 'Вы выбрали тест, теперь выберите условия оказания медицинской помощи:', reply_markup=markup_for_test)
+                bot.send_message(call.message.chat.id, 'Вы выбрали учет нежелательных событий, теперь выберите условия оказания медицинской помощи:', reply_markup=markup_for_test)
             elif call.data == 'sheet':
-                bot.send_message(call.message.chat.id, 'Вы выбрали таблицу', reply_markup=None)
+                bot.send_message(call.message.chat.id, 'Вы выбрали комплексную проверку подразделений', reply_markup=None)
                 markup_for_sheet = types.InlineKeyboardMarkup(row_width=2)
                 item1_for_sheet = types.InlineKeyboardButton("амбулаторные условия", callback_data='ambulat_for_sheet')
                 item2_for_sheet = types.InlineKeyboardButton("стационарные условия", callback_data='station_for_sheet')
                 markup_for_sheet.add(item1_for_sheet, item2_for_sheet)
-                bot.send_message(call.message.chat.id, 'Вы выбрали таблицу, теперь выберите условия оказания медицинской помощи:', reply_markup=markup_for_sheet)
+                bot.send_message(call.message.chat.id, 'Вы выбрали комплексную проверку подразделений, теперь выберите условия оказания медицинской помощи:', reply_markup=markup_for_sheet)
             elif call.data == 'ambulat_for_sheet':
                 mesg = bot.send_message(call.message.chat.id, '№ п/п')
                 bot.register_next_step_handler(mesg, number_ambulat)
@@ -520,7 +519,6 @@ def callback_inline(call):
                 key_for_test_1.row(btn_act_1, btn_comment_1)
                 wb = openpyxl.reader.excel.load_workbook(filename="Ambulator.xlsx")
                 wb.active = 0
-                print("Программа зашла в амбулат фор тест который с клавиатуры")
                 sheet = wb.active
                 bot.send_message(call.message.chat.id, 'Вопрос №' + str(schetchik[call.message.chat.id]))
                 bot.send_message(call.message.chat.id, sheet['A' + str(schetchik[call.message.chat.id])].value, reply_markup=key_for_test_1)
@@ -558,7 +556,6 @@ def callback_inline(call):
                 key_for_test_1_st.row(btn_act_1_st, btn_comment_1_st)
                 wb = openpyxl.reader.excel.load_workbook(filename="Stationar.xlsx")
                 wb.active = 0
-                print("Программа зашла в статион фор тест который с клавиатуры")
                 sheet = wb.active
                 bot.send_message(call.message.chat.id, 'Вопрос №' + str(schetchik[call.message.chat.id]))
                 bot.send_message(call.message.chat.id, sheet['A' + str(schetchik[call.message.chat.id])].value, reply_markup=key_for_test_1_st)
@@ -575,7 +572,6 @@ def callback_inline(call):
             elif call.data == 'act_1_st' or call.data == 'act_2_st' or call.data == 'act_3_st':
                 wb = openpyxl.reader.excel.load_workbook(filename="Stationar.xlsx")
                 wb.active = 0
-                print("Программа зашла в акт")
                 sheet = wb.active
                 peremen = schetchik[call.message.chat.id]
                 while sheet['E' + str(peremen)].value == None:
